@@ -3,11 +3,13 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  useColorScheme
 } from 'react-native';
 import React, {useState} from 'react';
 import FlatCard from './components/flatCard/FlatCard';
 import TrendingCard from './components/trendingCard/TrendingCard';
+import BlogCard from './components/blogCard/BlogCard'
 
 const App = () => {
   const [flatCardColors, setFlatCardColors] = useState([
@@ -17,20 +19,30 @@ const App = () => {
     'orange',
     'purple',
   ]);
+
   return (
     <SafeAreaView>
-      <View>
-        <Text style={styles.headingText}>Flat Cards</Text>
-        <View style={styles.cardsContainer}>
-          <ScrollView horizontal>
-            {flatCardColors.map((flatCardColor, index) => {
-              return <FlatCard color={flatCardColor} key={index} headingStyle = {styles.headingText} />;
-            })}
-          </ScrollView>
+      <ScrollView vertical>
+        <View>
+          <Text style={styles.headingText}>Flat Cards</Text>
+          <View style={styles.cardsContainer}>
+            <ScrollView horizontal>
+              {flatCardColors.map((flatCardColor, index) => {
+                return (
+                  <FlatCard
+                    color={flatCardColor}
+                    key={index}
+                    headingStyle={styles.headingText}
+                  />
+                );
+              })}
+            </ScrollView>
+          </View>
         </View>
-      </View>
 
-      <TrendingCard headingStyle={styles.headingText} />
+        <TrendingCard headingStyle={styles.headingText} />
+        <BlogCard headingStyle={styles.headingText} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
