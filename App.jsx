@@ -4,12 +4,13 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
 import React, {useState} from 'react';
 import FlatCard from './components/flatCard/FlatCard';
 import TrendingCard from './components/trendingCard/TrendingCard';
-import BlogCard from './components/blogCard/BlogCard'
+import BlogCard from './components/blogCard/BlogCard';
+import Contact from './components/contact/Contact';
 
 const App = () => {
   const [flatCardColors, setFlatCardColors] = useState([
@@ -42,6 +43,7 @@ const App = () => {
 
         <TrendingCard headingStyle={styles.headingText} />
         <BlogCard headingStyle={styles.headingText} />
+        <Contact headingStyle={styles.headingText} />
       </ScrollView>
     </SafeAreaView>
   );
