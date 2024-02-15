@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  useColorScheme,
-} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import FlatCard from './components/flatCard/FlatCard';
 import TrendingCard from './components/trendingCard/TrendingCard';
@@ -21,30 +14,52 @@ const App = () => {
     'purple',
   ]);
 
+  const renderFlatCard = ({item}) => {
+    return <FlatCard color={item} headingStyle={styles.headingText} />;
+  };
+
+  const mainListData = [
+    {type: 'flatCards', data: flatCardColors},
+    {type: 'trendingCard'},
+    {type: 'blogCard'},
+    {type: 'contact'},
+  ];
+
+  const renderMainItem = ({item}) => {
+    switch (item.type) {
+      case 'flatCards':
+        return (
+          <View>
+            <Text style = {styles.headingText}>Flat Cards</Text>
+            <View style={styles.cardsContainer}>
+              <FlatList
+                data={item.data}
+                renderItem={renderFlatCard}
+                horizontal
+                keyExtractor={(item, index) => `flatCard-${index}`}
+              />
+            </View>
+          </View>
+        );
+
+      case 'trendingCard':
+        return <TrendingCard headingStyle={styles.headingText} />;
+
+      case 'blogCard':
+        return <BlogCard headingStyle={styles.headingText} />;
+
+      case 'contact':
+        return <Contact headingStyle={styles.headingText} />;
+    }
+  };
+
   return (
     <SafeAreaView>
-      <ScrollView vertical>
-        <View>
-          <Text style={styles.headingText}>Flat Cards</Text>
-          <View style={styles.cardsContainer}>
-            <ScrollView horizontal>
-              {flatCardColors.map((flatCardColor, index) => {
-                return (
-                  <FlatCard
-                    color={flatCardColor}
-                    key={index}
-                    headingStyle={styles.headingText}
-                  />
-                );
-              })}
-            </ScrollView>
-          </View>
-        </View>
-
-        <TrendingCard headingStyle={styles.headingText} />
-        <BlogCard headingStyle={styles.headingText} />
-        <Contact headingStyle={styles.headingText} />
-      </ScrollView>
+      <FlatList
+        data={mainListData}
+        renderItem={renderMainItem}
+        keyExtractor={(item, index) => item.type + index}
+      />
     </SafeAreaView>
   );
 };
@@ -62,7 +77,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 8,
     // flex: 1,
-    gap: 16,
   },
 });
 
